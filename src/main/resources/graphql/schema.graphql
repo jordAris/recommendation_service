@@ -1,0 +1,69 @@
+type Pooler {
+    id: String!
+    keywords: [String!]
+    localite: String!
+    favdest: String!
+}
+
+type Driver {
+    id: String!
+    rating: Float!
+    routes: [String!]
+    Interest: [String!]
+    plannerId: String
+}
+
+
+type Trip {
+    id: String!
+    source: String!
+    destination: String!
+    Start: Float!
+    End: Float!
+    price: Float!
+    driverId: String!
+    plannerId: String!
+    trajetId: String!
+}
+
+type Planner {
+    id: String!
+    carId: [String!]
+    favDest: String
+    localite: String!
+    rating: Float!
+}
+
+type Trajet {
+    id: String!
+    start: String!
+    end: String!
+    price: Float!
+}
+
+type Query {
+    user(id: String!): Pooler
+    allUsers: [Pooler]
+    driver(id: String!): Driver
+    allDrivers: [Driver]
+    trip(id: String!): Trip
+    allTrips: [Trip]
+    planner(id: String!): Planner
+    allPlanners: [Planner]
+    tripsByUsers(id: String!): [Trip]
+    usersByKeywords(keywords: String!): [Pooler]
+    usersByLocalite(localite: String!) : [Pooler]
+    plannerByLocalite(localite: String!): [Planner]
+    plannerByfavDest(localite: String!): [Planner]
+}
+
+type mutations {
+    otherTrips(id: String!): Trip
+    allOtherTrips: [Trip]
+    bestplanner(id: String!): Planner
+    allBestPlanner: [Planner]
+
+}
+
+
+
