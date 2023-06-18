@@ -91,6 +91,8 @@ public class RecommemderService {
     public List<Trip> sortSearch(List<Trip> Trips, String userID) throws ParseException {
         List<Trip> trips = new ArrayList<>();
         List<Trip> tripList = new ArrayList<>();
+
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String query = "query { tripsByUsers(id: \""+ userID + "\") }";
