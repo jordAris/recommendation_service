@@ -113,8 +113,8 @@ public class RecommemderService {
 
 
         if ((Locality instanceof String) && (poolerFavDest instanceof String)){
-            locality = (String) Locality;
-            fav_dest = (String) poolerFavDest;
+            String locality = (String) Locality;
+            String fav_dest = (String) poolerFavDest;
 
             for (Map<String, Object> trip : UserTrips) {
                 Object Id = trip.get("id");
