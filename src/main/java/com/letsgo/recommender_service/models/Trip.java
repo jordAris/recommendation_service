@@ -1,9 +1,15 @@
 package com.letsgo.recommender_service.models;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+
 import java.util.Date;
 import java.util.List;
 
+@Node
 public class Trip {
+
+    @Id
     private String id;
     private String source;
     private String destination;

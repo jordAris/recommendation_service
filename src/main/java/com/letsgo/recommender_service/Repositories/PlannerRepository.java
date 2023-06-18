@@ -13,7 +13,7 @@ public interface PlannerRepository extends Neo4jRepository<Planner, String>{
 
     public List<Planner> findAll();
 
-    public List<Planner> plannerByLocalite(String Localite);
-
-    List<Planner> plannerByfavDest(String favDest);
+//    public List<Planner> plannerByLocalite(String Localite);
+//
+//    List<Planner> plannerByfavDest(String favDest);
 }

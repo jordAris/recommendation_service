@@ -1,8 +1,15 @@
 package com.letsgo.recommender_service.models;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+
 import java.util.List;
 
+
+@Node
 public class Planner {
+
+    @Id
     private String id;
     private List<String> carId;
     private String favDest;

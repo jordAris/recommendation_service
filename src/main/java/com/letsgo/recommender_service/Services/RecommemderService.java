@@ -11,6 +11,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.elasticsearch.client.RestClient;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -38,16 +39,20 @@ public class RecommemderService {
     @Autowired
     public RecommemderService(PoolerRepository userRepository,
                               TripRepository tripRepository,
-                              PlannerRepository plannerRepository, RestTemplate restTemplate, GraphQLSchema graphQLSchema, RestClient esClient) {
+                              PlannerRepository plannerRepository, GraphQLSchema graphQLSchema, RestClient esClient) {
         this.poolerRepository = userRepository;
         this.tripRepository = tripRepository;
         this.plannerRepository = plannerRepository;
         this.graphQLSchema = graphQLSchema;
-        this.restTemplate = new RestTemplate();
         this.esClient = esClient;
     }
 
-    /*public Trip printRecommendTrip(String userId){
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    public Trip printRecommendTrip(String userId){
         Trip trips = new Trip();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -81,12 +86,12 @@ public class RecommemderService {
 
 
         return trips;
-    }*/
+    }
 
     public List<Trip> sortSearch(List<Trip> Trips, String userID) throws ParseException {
         List<Trip> trips = new ArrayList<>();
-
-        /*HttpHeaders headers = new HttpHeaders();
+        List<Trip> tripList = new ArrayList<>();
+        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String query = "query { tripsByUsers(id: \""+ userID + "\") }";
         String query1 = "query { user(id: \"" + userID + "\") }";
@@ -120,14 +125,14 @@ public class RecommemderService {
                 Object End = trip.get("End");
                 Object trajet = trip.get("trajetId");
 
-                if ((Id instanceof String) && (source instanceof String) && (destination instanceof String) && (price instanceof String) && (plannerId instanceof String) && (driverId instanceof String) && (start instanceof String) && (End instanceof String) && (trajet instanceof String)){
-                    Trip tripHis = new Trip((String) Id, (String) source, (String) destination, (Double) price, (Double) start, (Double) End, (String) plannerId, (String) trajet);
+                if ((Id instanceof String) && (source instanceof String) && (destination instanceof String) && (price instanceof String) && (plannerId instanceof String) && (driverId instanceof String) && (start instanceof Date) && (End instanceof Date) && (trajet instanceof String)){
+                    Trip tripHis = new Trip((String) Id, (String) source, (String) destination, (Double) price, (Date) start, (Date) End, (String) plannerId, (String) trajet);
                     tripList.add(tripHis);
                 }
             }
-        }*/
+        }
 
-        List<Trip> tripList = new ArrayList<>();
+
         String locality = "Yaounde";
         String fav_dest = "Kribi";
 

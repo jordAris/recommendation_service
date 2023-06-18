@@ -12,7 +12,5 @@ public interface PoolerRepository extends Neo4jRepository<Pooler, String> {
 
     List<Pooler> findAll();
 
-    List<Pooler> usersByKeywords(String keywords);
 
-    List<Pooler> usersByLocalite(String Localite);
 }

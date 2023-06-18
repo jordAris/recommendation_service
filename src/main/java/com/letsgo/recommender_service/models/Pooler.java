@@ -1,8 +1,14 @@
 package com.letsgo.recommender_service.models;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+
 import java.util.List;
 
+@Node
 public class Pooler {
+
+    @Id
     private String id;
     private List<String> keywords;
     private String Localite;
@@ -24,4 +30,5 @@ public class Pooler {
     public List<String> getKeywords() {
         return keywords;
     }
+
 }
