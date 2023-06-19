@@ -15,7 +15,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,12 +61,12 @@ public class RecommemderService {
         String query = "query { user(id: \""+ userId + "\") }";
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(Map.of("query", query), headers);
         ResponseEntity<Map> responseEntity = restTemplate.exchange("userMicroserviceURl", HttpMethod.POST, requestEntity, Map.class);
-        Map<String, Object> responseBody = responseEntity.getBody();
-        Object UserID = responseBody.get("id");
-        Object UserLocality = responseBody.get("locality");
-        Object UserFavDest = responseBody.get("fav_dest");
+        Map<String, Object> responseBody1 = responseEntity.getBody();
+        Object UserID = responseBody1.get("id");
+        Object UserLocality = responseBody1.get("locality");
+        Object UserFavDest = responseBody1.get("fav_dest");
 
-        if(UserID != null && UserID.equals(userId)) {
+        /*if(UserID != null && UserID.equals(userId)) {
             SparkConf sparkConf = new SparkConf();
             sparkConf.setMaster("spark://localhost:7077");
             sparkConf.setAppName("RecommenderService");
@@ -82,6 +84,21 @@ public class RecommemderService {
             // treatment to get only trips attributes that I need
 
             this.sparkSession.close();
+        }*/
+
+        String apiUrl = "http://localhost:8080/recommend/{userID}/{locality}/{fav_dest}";
+
+        URI uri = UriComponentsBuilder.fromUriString(apiUrl)
+                .build(UserID, UserLocality, UserFavDest);
+
+        ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
+        if (response.getStatusCode().is2xxSuccessful()) {
+            String responseBody = response.getBody();
+            // Process the response data as needed
+            System.out.println(responseBody);
+        } else {
+            // Handle error response
+            System.err.println("Error: " + response.getStatusCode());
         }
 
 
@@ -137,7 +154,6 @@ public class RecommemderService {
 
         String locality = "Yaounde";
         String fav_dest = "Kribi";
-
         String dateString = "3-9-2006";
         String EntryDateTest = "4-6-2004";
         String GetOutDateTest = "6-6-2004";
