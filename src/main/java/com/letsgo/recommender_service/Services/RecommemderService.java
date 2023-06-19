@@ -41,22 +41,22 @@ public class RecommemderService {
     @Autowired
     public RecommemderService(PoolerRepository userRepository,
                               TripRepository tripRepository,
-                              PlannerRepository plannerRepository, GraphQLSchema graphQLSchema, RestClient esClient) {
+                              PlannerRepository plannerRepository, GraphQLSchema graphQLSchema,RestTemplate restTemplate, RestClient esClient) {
         this.poolerRepository = userRepository;
         this.tripRepository = tripRepository;
         this.plannerRepository = plannerRepository;
+        this.restTemplate = restTemplate;
         this.graphQLSchema = graphQLSchema;
         this.esClient = esClient;
     }
 
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
 
-    public Trip printRecommendTrip(String userId){
+    public Trip printRecommendTrip(Long userId){
         Trip trips = new Trip();
-        HttpHeaders headers = new HttpHeaders();
+
+
+        userId= 456L;
+        /*HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String query = "query { user(id: \""+ userId + "\") }";
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(Map.of("query", query), headers);
@@ -66,7 +66,7 @@ public class RecommemderService {
         Object UserLocality = responseBody1.get("locality");
         Object UserFavDest = responseBody1.get("fav_dest");
 
-        /*if(UserID != null && UserID.equals(userId)) {
+        if(UserID != null && UserID.equals(userId)) {
             SparkConf sparkConf = new SparkConf();
             sparkConf.setMaster("spark://localhost:7077");
             sparkConf.setAppName("RecommenderService");
@@ -78,7 +78,7 @@ public class RecommemderService {
 
             SparkContext sc = new SparkContext(sparkConf);
 
-            String apiEndpoint = "http://192.168.1.42:8080/api/recommendation";
+            String apiEndpoint = "http://192.168.5.38:8000/api/recommendation";
             JavaRDD<String> data = sc.textFile(apiEndpoint);
 
             // treatment to get only trips attributes that I need
@@ -86,10 +86,13 @@ public class RecommemderService {
             this.sparkSession.close();
         }*/
 
-        String apiUrl = "http://localhost:8080/recommend/{userID}/{locality}/{fav_dest}";
+        String UserLocality = "Yaounde";
+        String UserFavDest = "Bafia";
+
+        String apiUrl = "http://127.0.0.1:8000/RecommendationsTraveler/{userID}/{locality}/{fav_dest}";
 
         URI uri = UriComponentsBuilder.fromUriString(apiUrl)
-                .build(UserID, UserLocality, UserFavDest);
+                .build(userId, UserLocality, UserFavDest);
 
         ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
         if (response.getStatusCode().is2xxSuccessful()) {
@@ -110,7 +113,7 @@ public class RecommemderService {
         List<Trip> tripList = new ArrayList<>();
 
 
-        HttpHeaders headers = new HttpHeaders();
+       /* HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String query = "query { tripsByUsers(id: \""+ userID + "\") }";
         String query1 = "query { user(id: \"" + userID + "\") }";
@@ -149,7 +152,7 @@ public class RecommemderService {
                     tripList.add(tripHis);
                 }
             }
-        }
+        }*/
 
 
         String locality = "Yaounde";
