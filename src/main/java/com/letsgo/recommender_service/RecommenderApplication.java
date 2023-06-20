@@ -27,11 +27,11 @@ public class RecommenderApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		List<Trip> trips = recommemderService.sortSearch(new ArrayList<>(), "eeee");
+		//List<Trip> trips = recommemderService.sortSearch(new ArrayList<>(), "eeee");
 
-		// Trip tripList = recommemderService.printRecommendTrip(155L);
+		Trip tripList = recommemderService.printRecommendTrip(155L);
 
-		System.out.println(trips);
-		//System.out.println(tripList);
+		// System.out.println(trips);
+		System.out.println(tripList);
 	}
 }
