@@ -35,9 +35,18 @@ public class RecommenderController {
         }
     }
 
-    @GetMapping("/recommend/{userId}")
-    public ResponseEntity<Trip> getRecommendedTrip(@PathVariable Long userId) {
-        Trip recommendedTrip = recommemderService.printRecommendTrip(userId);
+    @GetMapping("/recommend/registered/{userId}/{userRole}")
+    public ResponseEntity<Trip> getRecommendedTrip(@PathVariable Long userId,
+                                                   @PathVariable String userRole) {
+        Trip recommendedTrip = recommemderService.printRecommendTrip(userId, userRole);
+        return new ResponseEntity<>(recommendedTrip, HttpStatus.OK);
+    }
+
+    @GetMapping("/recommend/unregistered/{locality}")
+    public ResponseEntity<Trip> getRecommendTrip(@PathVariable String locality,
+                                                 @PathVariable String userRole) {
+        Trip recommendedTrip = recommemderService.printRecommendTrip0(userRole, locality);
+
         return new ResponseEntity<>(recommendedTrip, HttpStatus.OK);
     }
 }
